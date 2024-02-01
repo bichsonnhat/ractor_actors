@@ -124,6 +124,7 @@ impl Actor for FileWatcher {
     ) -> Result<(), ActorProcessingErr> {
         match message {
             FileWatcherMessage::Event(watcher_event) => {
+                println!("Event: {:?}", watcher_event);
                 for sub in state.subscriptions.values() {
                     sub.event_received(watcher_event.clone());
                 }
