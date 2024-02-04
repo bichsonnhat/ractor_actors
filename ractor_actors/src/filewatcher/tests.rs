@@ -16,9 +16,11 @@ mod tests {
             ..Default::default()
         };
 
-        let (fwactor, fwhandle) = Actor::spawn(None, fw, config)
+        let (_fwactor, fwhandle) = Actor::spawn(None, fw, config)
         .await
         .expect("Filewatcher failed to spawn");
+        let conn = rusqlite::Connection::open("../ractor_actors/src/filewatcher/data.db").expect("Failed to load database");
+        let _ = conn.execute("INSERT INTO foo values (18, 11)", ()).expect("Failed to execute query");
         fwhandle.await.unwrap();
     }
 }
